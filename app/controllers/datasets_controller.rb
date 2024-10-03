@@ -9,7 +9,7 @@ class DatasetsController < ApplicationController
         @dataset.file.attach(params[:dataset][:file])
         # Parse the dataset and generate schema
         schema_definition = generate_schema(@dataset)
-        Schema.create(dataset: @dataset, schema_definition: schema_definition)
+        @schema = Schema.create(dataset: @dataset, schema_definition: schema_definition)
         redirect_to @dataset
       else
         render :new
