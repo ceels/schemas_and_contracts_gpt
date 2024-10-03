@@ -1,7 +1,11 @@
 <h1>Dataset: <%= @dataset.name %></h1>
 
 <h2>Schema</h2>
-<pre><%= @schema.schema_definition %></pre>
+<% if @schema %>
+  <pre><%= @schema.schema_definition %></pre>
+<% else %>
+  <p>No schema available for this dataset.</p>
+<% end %>
 
 <%= form_with url: validate_dataset_path(@dataset), local: true, method: :post do |form| %>
   <div class="field">
