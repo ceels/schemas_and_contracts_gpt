@@ -1,0 +1,6 @@
+<h1>Dataset: <%= @dataset.name %></h1>
+
+<h2>Schema</h2>
+<pre><%= @schema.schema_definition %></pre>
+
+<%= link_to 'Upload Another Dataset', new_dataset_path %>
