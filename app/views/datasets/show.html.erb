@@ -3,4 +3,14 @@
 <h2>Schema</h2>
 <pre><%= @schema.schema_definition %></pre>
 
+<%= form_with url: validate_dataset_path(@dataset), local: true, method: :post do |form| %>
+  <div class="field">
+    <%= form.label :file, "Upload New Dataset for Validation" %>
+    <%= form.file_field :file %>
+  </div>
+  <div class="actions">
+    <%= form.submit "Validate Dataset" %>
+  </div>
+<% end %>
+
 <%= link_to 'Upload Another Dataset', new_dataset_path %>

@@ -6,9 +6,10 @@ class DatasetsController < ApplicationController
   def create
     @dataset = Dataset.new(dataset_params)
     if @dataset.save
+      @dataset.file.attach(params[:dataset][:file])
       # Parse the dataset and generate schema
-      schema = generate_schema(@dataset)
-      Schema.create(dataset: @dataset, schema_definition: schema)
+      schema_definition = generate_schema(@dataset)
+      Schema.create(dataset: @dataset, schema_definition: schema_definition)
       redirect_to @dataset
     else
       render :new
@@ -20,10 +21,21 @@ class DatasetsController < ApplicationController
     @schema = @dataset.schema
   end
 
+  def validate
+    @dataset = Dataset.find(params[:id])
+    new_dataset = params[:file] # Assuming the new dataset is uploaded as a file
+    if @dataset.schema.validate_dataset(new_dataset)
+      flash[:notice] = "Dataset is valid according to the schema."
+    else
+      flash[:alert] = "Dataset is not valid according to the schema."
+    end
+    redirect_to @dataset
+  end
+
   private
 
   def dataset_params
-    params.require(:dataset).permit(:name, :file)
+    params.require(:dataset).permit(:name)
   end
 
   def generate_schema(dataset)

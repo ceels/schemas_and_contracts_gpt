@@ -1,2 +1,3 @@
 class Dataset < ApplicationRecord
-end
+    has_one_attached :file
+  end
